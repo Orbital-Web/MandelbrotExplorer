@@ -23,8 +23,8 @@ private:
 // methods
 public:
     // constructor
-    MandelbrotExplorer(int size_in=1024, long double zoomscale_in=0.75, int maxiter_in=256,
-                       int checkperiod_in=32);
+    MandelbrotExplorer(int size_in, long double zoomscale_in, int maxiter_in,
+                       int checkperiod_in);
 
     // life-cycle of the explorer
     void start();

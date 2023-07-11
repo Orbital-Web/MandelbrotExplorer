@@ -1,36 +1,45 @@
-/*
-#include <SFML/Graphics.hpp>
+#include "MandelbrotExplorer.h"
+#include <iostream>
+#include <string.h>
 
 
+int main(int argc, char** argv) {
+    int size = 1024;
+    double zoomscale = 0.75;
+    int maxiter = 256;
+    int checkperiod = 32;
 
-int main()
-{
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    // parse argument
+    int i=1;
+    while (i < argc) {
+        if (!strcmp(argv[i], "-size"))
+            size = std::atoi(argv[i+1]);
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
+        else if (!strcmp(argv[i], "-zoom"))
+            zoomscale = std::atof(argv[i+1]);
+
+        else if (!strcmp(argv[i], "-maxiter"))
+            maxiter = std::atoi(argv[i+1]);
+
+        else if (!strcmp(argv[i], "-period"))
+            checkperiod = std::atoi(argv[i+1]);
+
+        else {
+            std::cout << "Usage: main.exe [options]\n\n"
+                      << "Options:\n"
+                      << "  --help\tDisplay this information.\n"
+                      << "  -size n\tSet window size to n by n\n"
+                      << "  -zoom f\tSet zoom scale to f\n"
+                      << "  -maxiter n\tSet maximum iteration count to n\n"
+                      << "  -period n\tSet period checking length to n\n";
+            return -1;
         }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
+        i += 2;
     }
 
-    return 0;
-}
-*/
-#include "MandelbrotExplorer.h"
-
-
-int main() {
-    MandelbrotExplorer explorer(1024, 0.75, 256, 32);
+    printf("Starting Explorer with size: %d, zoomscale: %.3f, maxiter: %d, checkperiod: %d\n",
+           size, zoomscale, maxiter, checkperiod);
+    MandelbrotExplorer explorer(size, zoomscale, maxiter, checkperiod);
     explorer.start();
     return 0;
 }

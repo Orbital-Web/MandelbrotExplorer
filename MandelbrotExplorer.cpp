@@ -85,7 +85,7 @@ void MandelbrotExplorer::draw() {
     // timing end
     auto tend = std::chrono::_V2::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(tend - tstart);
-    std::cout << "Rendered frame in " << elapsed.count()/1000.0 << "s\n";
+    printf("Rendered in %.3fs\n", elapsed.count()/1000.0);
 }
 
 
