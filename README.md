@@ -3,7 +3,7 @@ A Mandelbrot Fractal Explorer written in C++ and SFML.
 
 Here are the list of optimizations and improvements planned/already implemented, taken mostly from [this Wikepedia article](https://www.wikiwand.com/en/Plotting_algorithms_for_the_Mandelbrot_set):
 - [x] Normalized iteration count
-- [ ] LCH coloring
+- [x] Continuous coloring
 - [x] Cardoid checking
 - [x] Periodicity checking
 - [ ] Multithreading

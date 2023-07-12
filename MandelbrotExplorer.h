@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <complex>
 
 
 
@@ -9,12 +8,13 @@ class MandelbrotExplorer {
 private:
     int size;
     int maxiter;
+    int iterincr;
     int checkperiod;
     long double zoomscale;
-    std::complex<long double> lc, rc;
+    long double c0_re, c0_im, c1_re, c1_im;
 
     sf::RenderWindow* window;
-    sf::Event windowevent;
+    sf::Event event;
     sf::Uint8* pixels;
     sf::Texture texture;
     sf::Sprite fractal;
@@ -23,8 +23,7 @@ private:
 // methods
 public:
     // constructor
-    MandelbrotExplorer(int size_in, long double zoomscale_in, int maxiter_in,
-                       int checkperiod_in);
+    MandelbrotExplorer(int size_in, long double zoomscale_in, int maxiter_in, int iterincr_in, int checkperiod_in);
 
     // life-cycle of the explorer
     void start();
@@ -37,8 +36,8 @@ private:
     void zoom(bool zoomin);
 
     // returns the color of a pixel in the fractal
-    sf::Color get_mb_pixel(const std::complex<long double> c);
+    sf::Color get_mb_pixel(const long double cre, const long double cim);
 
     // checks if the given point is in a cardoid/bulb
-    static bool in_cardoid(const std::complex<long double> c);
+    static bool in_cardoid(const long double cre, const long double cim);
 };
