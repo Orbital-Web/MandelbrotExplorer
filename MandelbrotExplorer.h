@@ -23,7 +23,8 @@ private:
 // methods
 public:
     // constructor
-    MandelbrotExplorer(int size_in, double zoomscale_in, int maxiter_in, int iterincr_in, int checkperiod_in);
+    MandelbrotExplorer(const int size_in, const double zoomscale_in, const int maxiter_in,
+    const int iterincr_in, const int checkperiod_in);
 
     // life-cycle of the explorer
     void start();
@@ -33,10 +34,10 @@ private:
     void draw();
 
     // handles zooming
-    void zoom(bool zoomin);
+    void zoom(const bool zoomin);
 
-    // returns the color of a pixel in the fractal
-    sf::Color get_mb_pixel(const double cre, const double cim);
+    // sets the color of a pixel in the fractal
+    void set_mb_pixel(const int p_index, const double cre, const double cim);
 
     // checks if the given point is in a cardoid/bulb
     static bool in_cardoid(const double cre, const double cim);

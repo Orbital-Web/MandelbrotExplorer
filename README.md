@@ -1,6 +1,6 @@
 # MandelbrotExplorer
 A Mandelbrot Fractal Explorer written in C++ and SFML.
-It can view up to zoom widths of `10^-13` before encountering floating point errors (although this can be increased to `10^-16` using `long double`, at the cost of speed and inconsistency across compilers. Thus, `long double` weren't used).
+It can view up to a zoom (pixel width) of `10^-14` before encountering floating point errors (although this can be increased to `10^-17` using `long double`, at the cost of speed and inconsistency across compilers. Thus, `long double` weren't used).
 
 
 ## Features

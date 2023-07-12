@@ -8,8 +8,8 @@
 
 
 // constructor
-MandelbrotExplorer::MandelbrotExplorer(int size_in, double zoomscale_in, int maxiter_in,
-int iterincr_in, int checkperiod_in) {
+MandelbrotExplorer::MandelbrotExplorer(const int size_in, const double zoomscale_in, const int maxiter_in,
+const int iterincr_in, const int checkperiod_in) {
     size = size_in;
     zoomscale = zoomscale_in;
     maxiter = maxiter_in;
@@ -87,11 +87,7 @@ void MandelbrotExplorer::draw() {
         for (int x=0; x<size; x++) {
             double real = c0_re + dc*x;
             double imag = c0_im + dc*y;
-            sf::Color col = get_mb_pixel(real, imag);
-            pixels[4*(size*y + x) + 0] = col.r;
-            pixels[4*(size*y + x) + 1] = col.g;
-            pixels[4*(size*y + x) + 2] = col.b;
-            pixels[4*(size*y + x) + 3] = 255;
+            set_mb_pixel(4*(size*y + x), real, imag);
         }
     }
 
@@ -104,12 +100,12 @@ void MandelbrotExplorer::draw() {
     auto tend = std::chrono::_V2::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(tend - tstart);
     printf("Time: %.3fs,\tmaxiter: %d,\tzoom: 10^%.2f\n",
-            elapsed.count()/1000.0, maxiter, (double)std::log10(dc*size));
+            elapsed.count()/1000.0, maxiter, std::log10(dc));
 }
 
 
 // handles zooming
-void MandelbrotExplorer::zoom(bool zoomin) {
+void MandelbrotExplorer::zoom(const bool zoomin) {
     // mouse position ratio
     double mx = (double) event.mouseWheelScroll.x / size;
     double my = (double) event.mouseWheelScroll.y / size;
@@ -131,11 +127,16 @@ void MandelbrotExplorer::zoom(bool zoomin) {
 }
 
 
-// returns the color of a pixel in the fractal (static)
-sf::Color MandelbrotExplorer::get_mb_pixel(const double cre, const double cim) {
+// sets the color of a pixel in the fractal (static)
+void MandelbrotExplorer::set_mb_pixel(const int p_index, const double cre, const double cim) {
     // pre-checks
-    if (in_cardoid(cre, cim))
-        return sf::Color(0, 0, 0);
+    if (in_cardoid(cre, cim)) {
+        pixels[p_index+0] = 0;    // r
+        pixels[p_index+1] = 0;    // g
+        pixels[p_index+2] = 0;    // b
+        pixels[p_index+3] = 255;  // a
+        return;
+    }
 
     // iterative z
     double zre = cre;
@@ -160,8 +161,13 @@ sf::Color MandelbrotExplorer::get_mb_pixel(const double cre, const double cim) {
         itercount++;
 
         // periodicity checking
-        if (z_l2 == z_l2_old)
-            return sf::Color(0, 0, 0);
+        if (z_l2 == z_l2_old) {
+            pixels[p_index+0] = 0;    // r
+            pixels[p_index+1] = 0;    // g
+            pixels[p_index+2] = 0;    // b
+            pixels[p_index+3] = 255;  // a
+            return;
+        }
 
         // update check value for periodicity
         if (itercount%checkperiod == 0)
@@ -169,17 +175,23 @@ sf::Color MandelbrotExplorer::get_mb_pixel(const double cre, const double cim) {
     }
 
     // inside the set, return black
-    if (itercount >= maxiter)
-        return sf::Color(0, 0, 0);
+    if (itercount >= maxiter) {
+        pixels[p_index+0] = 0;    // r
+        pixels[p_index+1] = 0;    // g
+        pixels[p_index+2] = 0;    // b
+        pixels[p_index+3] = 255;  // a
+        return;
+    }
 
     // outside the set, compute color (color band repeats 4 times)
     double s = 4*(itercount + 1 - std::log(std::log(z_l2)) / std::log(2)) / maxiter;
     s -= (int)s;
-    //return sf::Color(255*s, 255*s, 255*s);
-    return sf::Color(
-        9*(1.0-s)*std::pow(s,3)*255,
-        15*std::pow(1.0-s,2)*std::pow(s,2)*255,
-        8.5*std::pow(1.0-s,3)*s*255);
+
+    pixels[p_index+0] = 9*(1.0-s)*std::pow(s,3)*255;             // r
+    pixels[p_index+1] = 15*std::pow(1.0-s,2)*std::pow(s,2)*255;  // g
+    pixels[p_index+2] = 8.5*std::pow(1.0-s,3)*s*255;             // b
+    pixels[p_index+3] = 255;                                     // a
+    return;
 }
 
 
