@@ -8,7 +8,7 @@
 
 
 // constructor
-MandelbrotExplorer::MandelbrotExplorer(int size_in, long double zoomscale_in, int maxiter_in,
+MandelbrotExplorer::MandelbrotExplorer(int size_in, double zoomscale_in, int maxiter_in,
 int iterincr_in, int checkperiod_in) {
     size = size_in;
     zoomscale = zoomscale_in;
@@ -49,7 +49,7 @@ void MandelbrotExplorer::start() {
                      (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !redraw) ||
                      (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !redraw)) {
                 redraw = true;
-                maxiter += 32;
+                maxiter += iterincr*8;
                 printf("Set maxiter to %d\n", maxiter);
             }
             
@@ -57,7 +57,7 @@ void MandelbrotExplorer::start() {
                      (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !redraw) ||
                      (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !redraw)) {
                 redraw = true;
-                maxiter -= 32;
+                maxiter -= iterincr*8;
                 printf("Set maxiter to %d\n", maxiter);
             }
         }
@@ -81,12 +81,12 @@ void MandelbrotExplorer::draw() {
     auto tstart = std::chrono::_V2::high_resolution_clock::now();
 
     // start drawing
-    long double dc = (c1_re - c0_re) / size;
-
+    double dc = (c1_re - c0_re) / size;
+    
     for (int y=0; y<size; y++) {
         for (int x=0; x<size; x++) {
-            long double real = c0_re + dc*x;
-            long double imag = c0_im + dc*y;
+            double real = c0_re + dc*x;
+            double imag = c0_im + dc*y;
             sf::Color col = get_mb_pixel(real, imag);
             pixels[4*(size*y + x) + 0] = col.r;
             pixels[4*(size*y + x) + 1] = col.g;
@@ -111,17 +111,17 @@ void MandelbrotExplorer::draw() {
 // handles zooming
 void MandelbrotExplorer::zoom(bool zoomin) {
     // mouse position ratio
-    long double mx = (long double) event.mouseWheelScroll.x / size;
-    long double my = (long double) event.mouseWheelScroll.y / size;
+    double mx = (double) event.mouseWheelScroll.x / size;
+    double my = (double) event.mouseWheelScroll.y / size;
 
     // scale
-    long double sc = c1_re - c0_re;
-    long double newsc = (zoomin) ? sc*zoomscale / 2 : sc / (2*zoomscale);
+    double sc = c1_re - c0_re;
+    double newsc = (zoomin) ? sc*zoomscale / 2 : sc / (2*zoomscale);
     maxiter += (zoomin) ? iterincr/zoomscale : -iterincr/zoomscale;
 
     // clicked spot
-    long double creal = c0_re + mx*sc;
-    long double cimag = c0_im + my*sc;
+    double creal = c0_re + mx*sc;
+    double cimag = c0_im + my*sc;
 
     // update lc and rc
     c0_re = creal - newsc;
@@ -132,17 +132,17 @@ void MandelbrotExplorer::zoom(bool zoomin) {
 
 
 // returns the color of a pixel in the fractal (static)
-sf::Color MandelbrotExplorer::get_mb_pixel(const long double cre, const long double cim) {
+sf::Color MandelbrotExplorer::get_mb_pixel(const double cre, const double cim) {
     // pre-checks
     if (in_cardoid(cre, cim))
         return sf::Color(0, 0, 0);
 
     // iterative z
-    long double zre = cre;
-    long double zim = cim;
+    double zre = cre;
+    double zim = cim;
     // for optimization
-    long double zre_sq = cre*cre;
-    long double zim_sq = cim*cim;
+    double zre_sq = cre*cre;
+    double zim_sq = cim*cim;
     // l2 norm of z
     double z_l2 = zre*zre + zim*zim;
     // old norm to check for periodicity
@@ -184,7 +184,7 @@ sf::Color MandelbrotExplorer::get_mb_pixel(const long double cre, const long dou
 
 
 // checks if the given point is in a cardoid/bulb
-bool MandelbrotExplorer::in_cardoid(const long double cre, const long double cim) {
+bool MandelbrotExplorer::in_cardoid(const double cre, const double cim) {
     double x_s = cre - 0.25;
     double y_2 = cim*cim;
     double q = x_s*x_s + y_2;
