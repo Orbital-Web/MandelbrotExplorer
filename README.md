@@ -2,6 +2,9 @@
 A Mandelbrot Fractal Explorer written in C++ and [SFML](https://www.sfml-dev.org/), and [Thread Pools](https://github.com/bshoshany/thread-pool).
 It can view up to a zoom (pixel width) of `10^-16` before encountering floating point errors (although this could be increased using `long double` at the cost of speed and inconsistency across compilers).
 
+<p align="center"><img src="https://github.com/Orbital-Web/MandelbrotExplorer/blob/02de17a941259230d2e1557cf1bc374a1748e58c/Render.png" width=500/></p>
+<p align="center"><i>a 1080x1080 render at a zoom of 10^-4.66 and a max iteration of 576, rendered in 0.330s</i></p>
+
 
 ## Features
 - Customizable size, max iteration count, iteration increment on zoom, scale factor when zooming, and period checking frequency. These can be set with command-line arguments. For more details, run `main.exe --help`. 
