@@ -1,14 +1,14 @@
 # MandelbrotExplorer
-A Mandelbrot Fractal Explorer written in C++ and SFML.
-It can view up to a zoom (pixel width) of `10^-16` before encountering floating point errors (although this can be increased using `long double` at the cost of speed and inconsistency across compilers. Thus, `long double` weren't used).
+A Mandelbrot Fractal Explorer written in C++ and [SFML](https://www.sfml-dev.org/), and [Thread Pools](https://github.com/bshoshany/thread-pool).
+It can view up to a zoom (pixel width) of `10^-16` before encountering floating point errors (although this could be increased using `long double` at the cost of speed and inconsistency across compilers).
 
 
 ## Features
-- Customizable size, max iteration count, iteration increment on zoom, scale factor when zooming, and period checking frequency. These can be set when running `main.exe`. For more details, input `main.exe --help`. 
-- Zoom in/out with the mouse scroll wheel. It will place the region the mouse was over when scrolling at the center of the window.
+- Customizable size, max iteration count, iteration increment on zoom, scale factor when zooming, and period checking frequency. These can be set with command-line arguments. For more details, run `main.exe --help`. 
+- Zoom in/out with the mouse scroll wheel. It will place the region the mouse was over when scrolling at the center of the window after the zoom.
 - Increase/decrease maxiter with any of the `arrow` keys or with the numpad `+` and `-` keys.
 
-Here are the list of optimizations and improvements planned/already implemented, taken mostly from [this Wikepedia article](https://www.wikiwand.com/en/Plotting_algorithms_for_the_Mandelbrot_set):
+Here are the list of optimizations and improvements implemented, taken mostly from [this Wikepedia article](https://www.wikiwand.com/en/Plotting_algorithms_for_the_Mandelbrot_set):
 - [x] Normalized iteration count
 - [x] Continuous coloring
 - [x] Cardoid checking
