@@ -1,4 +1,5 @@
 #pragma once
+#include "BS_thread_pool_light.hpp"
 #include <SFML/Graphics.hpp>
 
 
@@ -12,6 +13,7 @@ private:
     int checkperiod;
     long double zoomscale;
     long double c0_re, c0_im, c1_re, c1_im;
+    BS::thread_pool_light pool;
 
     sf::RenderWindow* window;
     sf::Event event;

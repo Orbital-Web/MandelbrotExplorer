@@ -13,7 +13,7 @@ Here are the list of optimizations and improvements planned/already implemented,
 - [x] Continuous coloring
 - [x] Cardoid checking
 - [x] Periodicity checking
-- [ ] Multithreading
+- [x] Multithreading
 
 
 ## Getting Started (Windows)

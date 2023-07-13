@@ -1,4 +1,5 @@
 #include "MandelbrotExplorer.h"
+#include "BS_thread_pool_light.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <chrono>
@@ -84,12 +85,16 @@ void MandelbrotExplorer::draw() {
     double dc = (c1_re - c0_re) / size;
     
     for (int y=0; y<size; y++) {
-        for (int x=0; x<size; x++) {
-            double real = c0_re + dc*x;
-            double imag = c0_im + dc*y;
-            set_mb_pixel(4*(size*y + x), real, imag);
-        }
+        // multi thread each row
+        pool.push_task([this, dc, y] {
+            for (int x=0; x<size; x++) {
+                double real = c0_re + dc*x;
+                double imag = c0_im + dc*y;
+                this->set_mb_pixel(4*(size*y + x), real, imag);
+            }
+        });
     }
+    pool.wait_for_tasks();
 
     window->clear();
     texture.update(pixels);
