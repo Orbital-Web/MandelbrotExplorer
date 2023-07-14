@@ -149,7 +149,7 @@ void MandelbrotExplorer::set_mb_pixel(const int p_index, const double cre, const
     // for optimization
     double zre_sq = cre*cre;
     double zim_sq = cim*cim;
-    // l2 norm of z
+    // squared l2 norm of z
     double z_l2 = zre*zre + zim*zim;
     // old norm to check for periodicity
     double z_l2_old = z_l2;
