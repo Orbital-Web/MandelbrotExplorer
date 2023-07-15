@@ -1,4 +1,4 @@
-#include "MandelbrotExplorer.h"
+#include "MandelbrotExplorer.hpp"
 #include <iostream>
 #include <string.h>
 

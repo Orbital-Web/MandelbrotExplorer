@@ -25,8 +25,8 @@ Here are the list of optimizations and improvements implemented, taken mostly fr
 3. Download SFML-2.6.0 (GCC MinGW) from https://www.sfml-dev.org/download/sfml/2.6.0/ and add it to the root directory
 4. Compile and run `main.exe` with the following commands
     ```
-    g++ -c main.cpp MandelbrotExplorer.cpp -ISFML-2.6.0/include -DSFML_STATIC
-    g++ -o main main.o MandelbrotExplorer.o -LSFML-2.6.0/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32
-    del main.o MandelbrotExplorer.o
+    g++ -c main.cpp -ISFML-2.6.0/include -DSFML_STATIC
+    g++ -o main main.o -LSFML-2.6.0/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32
+    del main.o
     main.exe
     ```
